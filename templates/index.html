@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO 리스트</title>
+</head>
+<body>
+    <h1>📝 TODO 리스트</h1>
+    <form action="{{ url_for('add') }}" method="post">
+        <input type="text" name="task" placeholder="할 일을 입력하세요" required>
+        <button type="submit">추가</button>
+    </form>
+
+    <ul>
+        {% for item in todo_list %}
+            <li>
+                <form action="{{ url_for('toggle', task_id=loop.index0) }}" method="get" style="display:inline;">
+                    <input type="checkbox" onchange="this.form.submit()" {% if item.done %}checked{% endif %}>
+                </form>
+                {% if item.done %}
+                    <s>{{ item.task }}</s>
+                {% else %}
+                    {{ item.task }}
+                {% endif %}
+                <a href="{{ url_for('delete', task_id=loop.index0) }}">삭제</a>
+            </li>
+        {% else %}
+            <li>할 일이 없습니다.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
