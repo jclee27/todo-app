@@ -6,4 +6,5 @@ RUN pip install --no-cache-dir -r requirements.txt \
     && pip install --no-cache-dir gunicorn
 
 EXPOSE 5000
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
+#CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--forwarded-allow-ips=*", "--proxy-headers", "app:app"]
